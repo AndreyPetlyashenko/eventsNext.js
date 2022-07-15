@@ -3,38 +3,30 @@ import { useRouter } from "next/router";
 import Button from "../button";
 import styles from "./filter.module.css";
 
-const Filter = () => {
+const Filter = (props) => {
   const yearRef = useRef();
   const monthRef = useRef();
-  const [year, setYear] = useState();
-  const [month, setMonth] = useState();
 
-  const formSubmitHandler = () => {
-    setYear(() => yearRef.current.value);
-    setMonth(() => monthRef.current.value);
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+    const selectedYear = yearRef.current.value;
+    const selectedMonth = monthRef.current.value;
+    props.onSearch(selectedYear, selectedMonth);
   };
   return (
-    <form
-      action={`events/${year}/${month}`}
-      className={styles.form}
-      onSubmit={formSubmitHandler}
-    >
+    <form className={styles.form} onSubmit={formSubmitHandler}>
       <div className={styles.controls}>
         <div className={styles.control}>
           <label htmlFor="month">year</label>
           <select name="year" id="year" ref={yearRef}>
-            <option value="2021" >
-              2021
-            </option>
+            <option value="2021">2021</option>
             <option value="2022">2022</option>
           </select>
         </div>
         <div className={styles.control}>
           <label htmlFor="month">month</label>
           <select name="month" id="month" ref={monthRef}>
-            <option value="1" >
-              January
-            </option>
+            <option value="1">January</option>
             <option value="2">February</option>
             <option value="3">March</option>
             <option value="4">April</option>
